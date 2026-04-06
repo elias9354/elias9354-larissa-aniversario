@@ -1,204 +1,231 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Para Larissa ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Larissa ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
 
-<style>
-body {
-  margin: 0;
-  background: black;
-  overflow: hidden;
-  font-family: Arial;
-  color: white;
-}
+        /* Tela inicial */
+        #startScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+        }
 
-/* Tela inicial */
-#startScreen {
-  position: absolute;
-  top: 40%;
-  width: 100%;
-  text-align: center;
-}
+        button {
+            padding: 16px 32px;
+            background: #ff4d6d;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
 
-button {
-  padding: 14px 28px;
-  background: #ff4d6d;
-  border: none;
-  border-radius: 12px;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-}
+        button:hover {
+            transform: scale(1.05);
+        }
 
-/* Conteúdo */
-#content {
-  display: none;
-}
+        /* Conteúdo principal */
+        #content {
+            display: none;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
 
-#foto {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 2s, transform 8s;
-  filter: brightness(0.5);
-}
+        #foto {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 2s ease, transform 8s ease;
+            filter: brightness(0.5);
+        }
 
-#foto.active {
-  opacity: 1;
-  transform: scale(1.1);
-}
+        #foto.active {
+            opacity: 1;
+            transform: scale(1.08);
+        }
 
-#texto {
-  position: absolute;
-  bottom: 12%;
-  width: 100%;
-  text-align: center;
-  font-size: 28px;
-  padding: 0 20px;
-}
+        #texto {
+            position: absolute;
+            bottom: 15%;
+            width: 100%;
+            text-align: center;
+            font-size: 28px;
+            padding: 0 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
 
-/* corações */
-.heart {
-  position: absolute;
-  color: #ff4d6d;
-  animation: subir 6s linear infinite;
-}
+        /* Corações flutuantes */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            animation: subir 7s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
 
-@keyframes subir {
-  0% { transform: translateY(100vh); opacity: 1; }
-  100% { transform: translateY(-10vh); opacity: 0; }
-}
+        @keyframes subir {
+            0%   { transform: translateY(110vh) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+        }
 
-/* final */
-#final {
-  position: absolute;
-  top: 35%;
-  width: 100%;
-  text-align: center;
-  font-size: 36px;
-  opacity: 0;
-  transition: opacity 3s;
-}
-</style>
+        /* Tela final */
+        #final {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            font-size: 38px;
+            opacity: 0;
+            transition: opacity 4s ease;
+            pointer-events: none;
+        }
+
+        #final button {
+            margin-top: 30px;
+            pointer-events: all;
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="startScreen">
-  <h1>Para Larissa ❤️</h1>
-  <button id="startBtn">Clique aqui</button>
-</div>
+    <div id="startScreen">
+        <h1>Para Larissa ❤️</h1>
+        <button id="startBtn">Clique aqui</button>
+    </div>
 
-<audio id="music">
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
+    <audio id="music" preload="auto">
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
 
-<div id="content">
-  <img id="foto">
-  <div id="texto"></div>
-</div>
+    <div id="content">
+        <img id="foto" alt="">
+        <div id="texto"></div>
+    </div>
 
-<div id="final">
-  Eu te amo, Larissa ❤️<br><br>
-  Feliz Aniversário 🎉<br><br>
-  - Elias 💖<br><br>
-  <button onclick="location.reload()">Ver novamente</button>
-</div>
+    <div id="final">
+        Eu te amo, Larissa ❤️<br><br>
+        Feliz Aniversário 🎉<br><br>
+        - Elias 💖
+        <br><br>
+        <button onclick="location.reload()">Ver novamente</button>
+    </div>
 
-<script>
-const fotos = [
-"foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg",
-"foto5.jpg","foto6.jpg","foto7.jpg","foto8.jpg",
-"foto9.jpg","foto10.jpg","foto11.jpg","foto12.jpg"
-];
+    <script>
+        const fotos = [
+            "foto1.jpg", "foto2.jpg", "foto3.jpg", "foto4.jpg",
+            "foto5.jpg", "foto6.jpg", "foto7.jpg", "foto8.jpg",
+            "foto9.jpg", "foto10.jpg", "foto11.jpg", "foto12.jpg"
+        ];
 
-const textos = [
-"Hoje é o seu dia...",
-"O dia mais especial do ano...",
-"Porque foi o dia que você nasceu ❤️",
-"E mudou completamente a minha vida...",
-"Esses 2 anos com você...",
-"Foram os melhores da minha vida...",
-"Cada momento ao seu lado...",
-"Vale mais do que qualquer coisa...",
-"Seu sorriso é o meu lugar favorito...",
-"Você ilumina tudo ao meu redor...",
-"Eu não me imagino sem você...",
-"Eu te amo mais do que palavras 💖"
-];
+        const textos = [
+            "Hoje é o seu dia...",
+            "O dia mais especial do ano...",
+            "Porque foi o dia que você nasceu ❤️",
+            "E mudou completamente a minha vida...",
+            "Esses 2 anos com você...",
+            "Foram os melhores da minha vida...",
+            "Cada momento ao seu lado...",
+            "Vale mais do que qualquer coisa...",
+            "Seu sorriso é o meu lugar favorito...",
+            "Você ilumina tudo ao meu redor...",
+            "Eu não me imagino sem você...",
+            "Eu te amo mais do que palavras 💖"
+        ];
 
-let i = 0;
-let started = false;
+        let indice = 0;
+        let jaIniciou = false;
 
-document.getElementById("startBtn").addEventListener("click", function() {
-  if (started) return;
-  started = true;
+        // Espera o DOM estar completamente carregado
+        document.addEventListener("DOMContentLoaded", () => {
+            const startBtn = document.getElementById("startBtn");
 
-  document.getElementById("startScreen").style.display = "none";
-  document.getElementById("content").style.display = "block";
+            startBtn.addEventListener("click", iniciarApresentacao);
+        });
 
-  let music = document.getElementById("music");
-  music.play().catch(()=>{});
+        function iniciarApresentacao() {
+            if (jaIniciou) return;
+            jaIniciou = true;
 
-  criarCoracoes();
-  mostrar();
-});
+            document.getElementById("startScreen").style.display = "none";
+            document.getElementById("content").style.display = "block";
 
-/* texto digitando */
-function escrever(texto) {
-  let el = document.getElementById("texto");
-  el.innerHTML = "";
-  let j = 0;
+            const music = document.getElementById("music");
+            music.play().catch(() => {});
 
-  function digitar() {
-    if (j < texto.length) {
-      el.innerHTML += texto[j];
-      j++;
-      setTimeout(digitar, 35);
-    }
-  }
-  digitar();
-}
+            criarCoracoes();
+            mostrarProxima();
+        }
 
-function mostrar() {
-  if (i >= fotos.length) {
-    document.getElementById("final").style.opacity = 1;
-    return;
-  }
+        function escrever(texto) {
+            const el = document.getElementById("texto");
+            el.innerHTML = "";
+            let j = 0;
 
-  let foto = document.getElementById("foto");
+            function digitar() {
+                if (j < texto.length) {
+                    el.innerHTML += texto[j];
+                    j++;
+                    setTimeout(digitar, 40);
+                }
+            }
+            digitar();
+        }
 
-  foto.classList.remove("active");
+        function mostrarProxima() {
+            if (indice >= fotos.length) {
+                document.getElementById("final").style.opacity = 1;
+                return;
+            }
 
-  setTimeout(() => {
-    foto.src = fotos[i];
-    foto.classList.add("active");
+            const fotoEl = document.getElementById("foto");
 
-    escrever(textos[i]);
-  }, 500);
+            // Remove animação anterior
+            fotoEl.classList.remove("active");
 
-  i++;
-  setTimeout(mostrar, 5000);
-}
+            setTimeout(() => {
+                fotoEl.src = fotos[indice];
+                fotoEl.classList.add("active");
+                escrever(textos[indice]);
+            }, 600);
 
-/* corações */
-function criarCoracoes() {
-  setInterval(() => {
-    let heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "❤️";
-    heart.style.left = Math.random() * 100 + "%";
-    heart.style.fontSize = (Math.random() * 25 + 10) + "px";
+            indice++;
+            setTimeout(mostrarProxima, 5200); // tempo total por slide
+        }
 
-    document.body.appendChild(heart);
+        function criarCoracoes() {
+            setInterval(() => {
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.innerText = "❤️";
+                heart.style.left = Math.random() * 100 + "%";
+                heart.style.fontSize = (Math.random() * 28 + 18) + "px";
+                heart.style.animationDuration = (Math.random() * 4 + 6) + "s";
+                document.body.appendChild(heart);
 
-    setTimeout(() => heart.remove(), 6000);
-  }, 200);
-}
-</script>
-
+                setTimeout(() => heart.remove(), 8000);
+            }, 180);
+        }
+    </script>
 </body>
 </html>
