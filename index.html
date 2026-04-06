@@ -1,30 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Para Larissa ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+}
+
+#startScreen {
+  margin-top: 40vh;
+}
+
+button {
+  padding: 12px 20px;
+  background: #ff4d6d;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+img {
+  width: 90%;
+  max-height: 70vh;
+  margin-top: 20px;
+}
+
+.text {
+  margin-top: 20px;
+  font-size: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="startScreen">
+  <h1>Para Larissa ❤️</h1>
+  <button onclick="start()">Clique aqui</button>
+</div>
+
+<audio id="music">
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<div id="content" style="display:none;">
+  <img id="foto" src="">
+  <div class="text" id="texto"></div>
+</div>
+
 <script>
-let slides;
-let index = 0;
+const fotos = ["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg"];
+const textos = [
+  "Hoje é um dia muito especial…",
+  "O dia em que o mundo ganhou você ❤️",
+  "Feliz aniversário, meu amor 🎉",
+  "Eu te amo mais do que tudo 💖"
+];
+
+let i = 0;
 
 function start() {
   document.getElementById("startScreen").style.display = "none";
+  document.getElementById("content").style.display = "block";
 
-  let music = document.getElementById("music");
-  music.play().catch(() => {
-    alert("Clique novamente ❤️");
-  });
+  document.getElementById("music").play().catch(()=>{});
 
-  // pega os slides depois que tudo carregou
-  slides = document.querySelectorAll(".slide");
-
-  showSlide();
+  mostrar();
 }
 
-function showSlide() {
-  if (!slides || slides.length === 0) return;
+function mostrar() {
+  if (i >= fotos.length) return;
 
-  slides.forEach(s => s.classList.remove("active"));
-  slides[index].classList.add("active");
+  document.getElementById("foto").src = fotos[i];
+  document.getElementById("texto").innerText = textos[i];
 
-  index++;
-  if (index < slides.length) {
-    setTimeout(showSlide, 4000);
-  }
+  i++;
+  setTimeout(mostrar, 4000);
 }
 </script>
+
+</body>
+</html>
