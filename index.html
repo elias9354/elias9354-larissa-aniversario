@@ -8,33 +8,84 @@
 body {
   margin: 0;
   background: black;
-  color: white;
+  overflow: hidden;
   font-family: Arial;
+  color: white;
+}
+
+/* Tela inicial */
+#startScreen {
+  position: absolute;
+  top: 40%;
+  width: 100%;
   text-align: center;
 }
 
-#startScreen {
-  margin-top: 40vh;
-}
-
 button {
-  padding: 12px 20px;
+  padding: 12px 25px;
   background: #ff4d6d;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   color: white;
+  font-size: 16px;
   cursor: pointer;
 }
 
-img {
-  width: 90%;
-  max-height: 70vh;
-  margin-top: 20px;
+/* Conteúdo */
+#content {
+  display: none;
 }
 
+img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 2s, transform 8s;
+  filter: brightness(0.5);
+}
+
+img.active {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Texto */
 .text {
+  position: absolute;
+  bottom: 12%;
+  width: 100%;
+  text-align: center;
+  font-size: 28px;
+  padding: 0 20px;
+}
+
+/* Corações */
+.heart {
+  position: absolute;
+  color: #ff4d6d;
+  animation: subir 6s linear infinite;
+}
+
+@keyframes subir {
+  0% { transform: translateY(100vh); opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Tela final */
+#final {
+  position: absolute;
+  top: 35%;
+  width: 100%;
+  text-align: center;
+  font-size: 36px;
+  opacity: 0;
+  transition: opacity 3s;
+}
+
+#replay {
   margin-top: 20px;
-  font-size: 20px;
 }
 </style>
 </head>
@@ -50,18 +101,38 @@ img {
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
-<div id="content" style="display:none;">
-  <img id="foto" src="">
+<div id="content">
+  <img id="foto">
   <div class="text" id="texto"></div>
 </div>
 
+<div id="final">
+  Eu te amo, Larissa ❤️<br><br>
+  Feliz Aniversário 🎉<br><br>
+  - Elias 💖<br><br>
+  <button id="replay" onclick="location.reload()">Ver novamente</button>
+</div>
+
 <script>
-const fotos = ["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg"];
+const fotos = [
+"foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg",
+"foto5.jpg","foto6.jpg","foto7.jpg","foto8.jpg",
+"foto9.jpg","foto10.jpg","foto11.jpg","foto12.jpg"
+];
+
 const textos = [
-  "Hoje é um dia muito especial…",
-  "O dia em que o mundo ganhou você ❤️",
-  "Feliz aniversário, meu amor 🎉",
-  "Eu te amo mais do que tudo 💖"
+"Hoje é o seu dia...",
+"O dia mais especial do ano...",
+"Porque foi o dia que você nasceu ❤️",
+"E mudou completamente a minha vida...",
+"Esses 2 anos com você...",
+"Foram os melhores da minha vida...",
+"Cada momento ao seu lado...",
+"Vale mais do que qualquer coisa...",
+"Seu sorriso é o meu lugar favorito...",
+"Você ilumina tudo ao meu redor...",
+"Eu não me imagino sem você...",
+"Eu te amo mais do que palavras 💖"
 ];
 
 let i = 0;
@@ -72,17 +143,60 @@ function start() {
 
   document.getElementById("music").play().catch(()=>{});
 
+  criarCoracoes();
   mostrar();
 }
 
-function mostrar() {
-  if (i >= fotos.length) return;
+/* Texto digitando */
+function escrever(texto, elemento) {
+  elemento.innerHTML = "";
+  let i = 0;
 
-  document.getElementById("foto").src = fotos[i];
-  document.getElementById("texto").innerText = textos[i];
+  function digitar() {
+    if (i < texto.length) {
+      elemento.innerHTML += texto.charAt(i);
+      i++;
+      setTimeout(digitar, 40);
+    }
+  }
+  digitar();
+}
+
+function mostrar() {
+  if (i >= fotos.length) {
+    document.getElementById("final").style.opacity = 1;
+    return;
+  }
+
+  let foto = document.getElementById("foto");
+  let texto = document.getElementById("texto");
+
+  foto.classList.remove("active");
+
+  setTimeout(() => {
+    foto.src = fotos[i];
+    foto.classList.add("active");
+
+    escrever(textos[i], texto);
+  }, 500);
 
   i++;
-  setTimeout(mostrar, 4000);
+  setTimeout(mostrar, 5000);
+}
+
+/* Corações */
+function criarCoracoes() {
+  setInterval(() => {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "❤️";
+    heart.style.left = Math.random() * 100 + "%";
+    heart.style.fontSize = (Math.random() * 25 + 10) + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+  }, 200);
 }
 </script>
 
